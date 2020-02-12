@@ -22,6 +22,17 @@ export const pullTags = (opts: IPushOpts): Promise<any> => {
   return execa('git', ['pull', '--tags', '--force', repo], execaOpts)
 }
 
+export const fetchBranch = (opts: IPushOpts): Promise<any> => {
+  const repo = '' + opts.repo
+  const branch = opts.branch
+  const execaOpts = {
+    env: opts.env,
+    cwd: opts.cwd
+  }
+
+  return execa('git', ['fetch', 'origin', branch, repo], execaOpts)
+}
+
 /**
  * @private
  */
@@ -50,5 +61,6 @@ export const pushPages = (opts: IPushOpts) => new Promise((resolve, reject) => {
  * @private
  */
 export const publish = (opts: IPushOpts) => pullTags(opts)
+  .then(() => fetchBranch(opts))
   .then(() => clean())
   .then(() => pushPages(opts))

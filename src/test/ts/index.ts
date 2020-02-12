@@ -218,6 +218,17 @@ describe('index', () => {
         execaOpts
       )
 
+      expect(fakeExeca).toHaveBeenCalledWith(
+        'git',
+        [
+          'fetch',
+          'origin',
+          expectedOpts.branch,
+          expectedOpts.repo
+        ],
+        execaOpts
+      )
+
       expect(log).toHaveBeenCalledWith('Publishing docs via gh-pages')
       expect(log).toHaveBeenCalledWith('Docs published successfully, branch=doc-branch, src=docs, dst=root')
 
