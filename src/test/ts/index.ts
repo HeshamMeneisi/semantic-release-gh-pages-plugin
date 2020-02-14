@@ -222,9 +222,8 @@ describe('index', () => {
         'git',
         [
           'fetch',
-          'origin',
-          expectedOpts.branch,
-          expectedOpts.repo
+          expectedOpts.repo,
+          expectedOpts.branch
         ],
         execaOpts
       )

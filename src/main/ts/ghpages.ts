@@ -30,7 +30,28 @@ export const fetchBranch = (opts: IPushOpts): Promise<any> => {
     cwd: opts.cwd
   }
 
-  return execa('git', ['fetch', 'origin', branch, repo], execaOpts)
+  return execa('git', ['fetch', repo, branch], execaOpts)
+}
+
+export const rebaseBranch = (opts: IPushOpts): Promise<any> => {
+  const repo = '' + opts.repo
+  const branch = opts.branch
+  const execaOpts = {
+    env: opts.env,
+    cwd: opts.cwd
+  }
+
+  return execa('git', ['rebase', repo, branch], execaOpts)
+}
+
+export const dropBranch = (opts: IPushOpts): Promise<any> => {
+  const branch = opts.branch
+  const execaOpts = {
+    env: opts.env,
+    cwd: opts.cwd
+  }
+
+  return execa('git', ['branch', '-d', branch], execaOpts)
 }
 
 /**
@@ -61,6 +82,7 @@ export const pushPages = (opts: IPushOpts) => new Promise((resolve, reject) => {
  * @private
  */
 export const publish = (opts: IPushOpts) => pullTags(opts)
-  .then(() => fetchBranch(opts))
-  .then(() => clean())
+  //.then(() => fetchBranch(opts))
+  //.then(() => rebaseBranch(opts))
   .then(() => pushPages(opts))
+  .then(() => clean())
